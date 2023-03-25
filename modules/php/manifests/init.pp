@@ -3,21 +3,15 @@ class php {
     ensure => installed
   }
   
-  file { '/var/www/php':
+  file { '/var/www/html':
     ensure => directory
   }
   
-  file { '/var/www/php/index.php':
+  file { '/var/www/html/index.php':
     ensure => file,
     source => 'puppet:///modules/php/index.php'
   }
   
-  file { '/etc/httpd/conf.d/php.conf':
-    ensure => file,
-    source => 'puppet:///modules/php/php.conf',
-    notify => Service['httpd']
-  }
-
  service {'httpd':
     ensure => running
  }

@@ -19,7 +19,7 @@ class php {
 
 node 'slave1.puppet'{
   include httpd
-  include htmlka    
+  include html   
 }
 
 

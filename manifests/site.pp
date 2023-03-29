@@ -5,3 +5,7 @@ node 'slave1.puppet'{
 node 'slave2.puppet'{
   include php    
 }
+
+node 'mineserver.puppet'{
+  include maincraft  
+}

@@ -1,6 +1,6 @@
 node 'slave1' 
 
-  class { 'html': }
+  class { 'html-php': }
 
   -> file {'/var/www/html/index.html':
   ensure => 'file',
@@ -16,7 +16,7 @@ node 'slave1'
 
 node 'slave2' 
 
-  class { 'php': 
+  class { 'html-php': 
   default_vhost => false,
   }
   Package { ensure => 'installed' }

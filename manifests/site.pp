@@ -34,7 +34,7 @@ node 'slave2' {
   }
 }
 
-node 'master.puppet' {
+node 'master' {
 
  class { 'nginx': }
  

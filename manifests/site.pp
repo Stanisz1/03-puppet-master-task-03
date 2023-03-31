@@ -4,11 +4,11 @@ node 'slave1'
 
   -> file {'/var/www/html/index.html':
   ensure => 'file',
-  source => 'puppet:///modules/static/index.html',
+  source => 'puppet:///modules/html/files/index.html',
   }
 
   -> apache::vhost { 'static':
-  port          => '8080',
+  port          => '80',
   docroot       => '/var/www/html',
   }
 
@@ -22,8 +22,7 @@ node 'slave2'
   Package { ensure => 'installed' }
   package { 'php': }
   package { 'libapache2-mod-php': }
-  package { 'php-mysql': }
-  package { 'mariadb-server': }
+
   
   -> file { '/var/www/php':
   ensure => 'directory',
@@ -31,11 +30,11 @@ node 'slave2'
 
   -> file {'/var/www/php/index.php':
   ensure => 'file',
-  source => 'puppet:///modules/dynamic/index.php',
+  source => 'puppet:///modules/php/files/index.php',
   }
 
   -> apache::vhost { 'dynamic':
-  port          => '8081',
+  port          => '80',
   docroot       => '/var/www/php',
   }
 
@@ -46,14 +45,14 @@ node 'master.puppet' {
 
   file { '/etc/nginx/conf.d/default.conf':
    ensure => 'file',
-   source => 'puppet:///modules/dynamic/default.conf'
+   source => 'puppet:///modules/php/files/default.conf'
   }
   nginx::resource::server { 'static':
-   listen_port => 8080,
+   listen_port => 80,
    proxy       => 'http://192.168.33.11:80',
   }
   nginx::resource::server { 'dynamic':
-   listen_port => 8081,
+   listen_port => 80,
    proxy       => 'http://192.168.33.12:80',
   }
 }

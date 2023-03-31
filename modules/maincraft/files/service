@@ -1,4 +1,4 @@
-Unit]
+[Unit]
 Description=Minecraft Server Service
 
 [Service]

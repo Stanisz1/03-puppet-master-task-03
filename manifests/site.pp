@@ -1,61 +1,76 @@
-node 'slave1' {
-  class { 'html-php': }
-  -> file {'/var/www/html/index.html':
-    ensure => 'file',
-    source => 'puppet:///modules/html/index.html',
+node slave1 {
+  package { 'httpd':
+    ensure => installed,
+    name   => httpd,
   }
-  -> apache::vhost { 'static':
-    port          => '80',
-    docroot       => '/var/www/html',
+  file { '/var/www/html/index.html':
+    ensure => present,
+    source => "puppet:///modules/html/index.html",
+  }
+  service { 'httpd':
+    ensure => running,
+    enable => true,
+  }
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
   }
 }
 
-node 'slave2' {
-  class { 'html-php': 
-    default_vhost => false,
+node slave2 {
+  package { 'httpd':
+    ensure => installed,
+    name   => httpd,
   }
-  package { 'php': ensure => 'installed' }
-  package { 'libapache2-mod-php': ensure => 'installed' }
-  package { 'php-mysql': }
-  package { 'mariadb-server': }
+  package { 'php':
+    ensure => installed,
+    name   => php,
+  }
+  file { '/var/www/html/index.php':
+    ensure => present,
+    source => "puppet:///modules/php/files/index.php",
+  }
+  service { 'php-fpm':
+    ensure => running,
+    enable => true,
+  }
+  service { 'httpd':
+    ensure => running,
+    enable => true,
+  }
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
+  }
+}
+
+node master {
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
+  }
   
-  -> file { '/var/www/html':
-    ensure => 'directory',
-  }
+  include nginx
 
-  -> file {'/var/www/html/index.php':
-    ensure => 'file',
-    source => 'puppet:///modules/php/files/index.php',
+  nginx::resource::server { '192.168.33.10':
+    listen_port => 80,
+    proxy => 'http://192.168.33.11',
   }
-
-  -> apache::vhost { 'dynamic':
-    port          => '80',
-    docroot       => '/var/www/html',
+  nginx::resource::server { '192.168.33.10:81':
+    listen_port => 81,
+    proxy => 'http://192.168.33.12',
+  }
+  exec { 'config SELinux Booleans':
+    command => 'setsebool -P httpd_can_network_connect on',
+    path    => "/usr/sbin",
   }
 }
 
-node 'master' {
-
- class { 'nginx': }
- 
-
-  file { '/etc/nginx/conf.d/default.conf':
-    ensure => 'file',
-    source => 'puppet:///modules/php/files/default.conf'
+node mineserver.puppet {
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
   }
-
-  nginx::resource::server { 'static':
-    listen_port => 80,
-    proxy       => 'http://192.168.33.11:80',
-  }
-
-  nginx::resource::server { 'dynamic':
-    listen_port => 80,
-    proxy       => 'http://192.168.33.12:80',
-  }
-}
-
-node 'mineserver'{
+  
   include minecraft
 }
-

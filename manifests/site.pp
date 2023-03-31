@@ -4,7 +4,7 @@ node 'slave1'
 
   -> file {'/var/www/html/index.html':
   ensure => 'file',
-  source => 'puppet:///modules/html/files/index.html',
+  source => 'puppet:///modules/html/index.html',
   }
 
   -> apache::vhost { 'static':

@@ -83,7 +83,7 @@ file { '/opt/minecraft/server.jar':
     group => 'root',
     ensure => file,
     mode   => '0644',
-    source => 'puppet:///modules/maincraft/files/service',
+    source => 'puppet:///modules/maincraft/files/minecraft.service',
     replace => false,
     }
 

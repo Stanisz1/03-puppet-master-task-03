@@ -16,6 +16,8 @@ node 'slave2' {
   }
   package { 'php': ensure => 'installed' }
   package { 'libapache2-mod-php': ensure => 'installed' }
+  package { 'php-mysql': }
+  package { 'mariadb-server': }
   
   -> file { '/var/www/html':
     ensure => 'directory',

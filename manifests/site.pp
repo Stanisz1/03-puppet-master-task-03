@@ -55,7 +55,7 @@ node 'master' {
   }
 }
 
-node 'mineserver.puppet'{
+node 'mineserver'{
   include minecraft
 }
 

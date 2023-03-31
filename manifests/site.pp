@@ -36,16 +36,8 @@ node 'slave2' {
 
 node 'master.puppet' {
 
- class nginx {
-  package { 'nginx':
-    ensure => installed,
-  }
-
-  service { 'nginx':
-    ensure => running,
-    enable => true,
-  }
-}
+ class { 'nginx': }
+ 
 
   file { '/etc/nginx/conf.d/default.conf':
     ensure => 'file',

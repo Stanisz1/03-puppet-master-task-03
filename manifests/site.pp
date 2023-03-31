@@ -1,7 +1,4 @@
-node 'slave1' {
-  file { '/root/README':
-   ensure => 'absent', 
-  }
+node 'slave1' 
 
   class { 'apache': }
 
@@ -17,10 +14,7 @@ node 'slave1' {
 
 }
 
-node 'slave2' {
-  file { '/root/README':
-   ensure => 'absent', 
-  }
+node 'slave2' 
 
   class { 'apache': 
   default_vhost => false,

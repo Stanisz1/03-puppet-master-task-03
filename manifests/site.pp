@@ -35,7 +35,17 @@ node 'slave2' {
 }
 
 node 'master.puppet' {
-  include nginx
+
+ class nginx {
+  package { 'nginx':
+    ensure => installed,
+  }
+
+  service { 'nginx':
+    ensure => running,
+    enable => true,
+  }
+}
 
   file { '/etc/nginx/conf.d/default.conf':
     ensure => 'file',

@@ -24,18 +24,18 @@ node 'slave2'
   package { 'libapache2-mod-php': }
 
   
-  -> file { '/var/www/php':
+  -> file { '/var/www/html':
   ensure => 'directory',
   }
 
-  -> file {'/var/www/php/index.php':
+  -> file {'/var/www/html/index.php':
   ensure => 'file',
   source => 'puppet:///modules/php/files/index.php',
   }
 
   -> apache::vhost { 'dynamic':
   port          => '80',
-  docroot       => '/var/www/php',
+  docroot       => '/var/www/html',
   }
 
 }

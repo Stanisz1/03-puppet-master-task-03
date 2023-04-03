@@ -55,6 +55,11 @@ node 'mineserver.puppet'{
 
 node 'master.puppet'{
 
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
+  }
+
   include nginx
   
   nginx::resource::server {'static':

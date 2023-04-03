@@ -1,22 +1,4 @@
-node master.puppet {
-  service { 'firewalld':
-    ensure => stopped,
-    enable => false,
-  }
-include nginx
-  nginx::resource::server { 'static':
-    listen_port => 80,
-    proxy => 'http://192.168.33.11',
-  }
-  nginx::resource::server { 'dynamic':
-    listen_port => 81,
-    proxy => 'http://192.168.33.12',
-  }
-  exec { 'config SELinux Booleans':
-    command => 'setsebool -P httpd_can_network_connect on',
-    path    => "/usr/sbin",
-  }
-}
+
 
 node slave1.puppet {
   package { 'httpd':
@@ -67,4 +49,25 @@ node mineserver.puppet {
     enable => false,
   }
 include minecraft
+}
+
+
+node master.puppet {
+  service { 'firewalld':
+    ensure => stopped,
+    enable => false,
+  }
+include nginx
+  nginx::resource::server { 'static':
+    listen_port => 80,
+    proxy => 'http://192.168.33.11',
+  }
+  nginx::resource::server { 'dynamic':
+    listen_port => 81,
+    proxy => 'http://192.168.33.12',
+  }
+  exec { 'config SELinux Booleans':
+    command => 'setsebool -P httpd_can_network_connect on',
+    path    => "/usr/sbin",
+  }
 }

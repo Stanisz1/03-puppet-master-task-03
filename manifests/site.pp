@@ -66,10 +66,6 @@ node 'master.puppet'{
     proxy       => 'http://192.168.33.12',
 }
 
-  class { selinux:
-    mode => 'permissive',
-    type => 'targeted',
-}
 
  exec { 'config SELinux Booleans':
     command => 'setsebool -P httpd_can_network_connect on',

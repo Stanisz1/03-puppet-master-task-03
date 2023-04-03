@@ -9,7 +9,7 @@ node 'slave1.puppet'{
   
   file { '/var/www/html/index.html':
     ensure => file,
-    source => "puppet:///modules/html/index.html"
+    source => 'puppet:///modules/html/index.html'
 }
    
   service {'httpd':
@@ -31,7 +31,7 @@ node 'slave2.puppet'{
 } 
   file {'/var/www/html/index.php':
     ensure => file,
-    source => "puppet:///modules/php/files/index.php"
+    source => 'puppet:///modules/php/files/index.php'
 }
   
   service {'httpd':

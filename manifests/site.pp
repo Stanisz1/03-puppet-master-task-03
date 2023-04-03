@@ -64,12 +64,12 @@ node 'master.puppet'{
   
   nginx::resource::server {'static':
     listen_port => 80,
-    proxy       => 'http://192.168.33.11:80',
+    proxy       => 'http://192.168.33.11',
 }
 
   nginx::resource::server {'dynamic':
     listen_port => 8080,
-    proxy       => 'http://192.168.33.12:80',
+    proxy       => 'http://192.168.33.12',
 }
 
   class { selinux:

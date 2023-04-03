@@ -39,18 +39,12 @@ node 'slave2.puppet'{
 }  
 }
 
-node 'mineserver.puppet'{
-
-  service {'firewalld':
+node mineserver.puppet {
+  service { 'firewalld':
     ensure => stopped,
-} 
-
-  class { selinux:
-    mode => 'permissive',
-    type => 'targeted',
-}
-  
-  include minecraft 
+    enable => false,
+  }
+include minecraft
 }
 
 node 'master.puppet'{

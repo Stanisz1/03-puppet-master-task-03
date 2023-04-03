@@ -68,7 +68,7 @@ node 'master.puppet'{
 }
 
   nginx::resource::server {'dynamic':
-    listen_port => 8080,
+    listen_port => 82,
     proxy       => 'http://192.168.33.12',
 }
 

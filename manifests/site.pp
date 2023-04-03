@@ -9,15 +9,13 @@ node 'slave1.puppet'{
   
   file { '/var/www/html/index.html':
     ensure => file,
-    source => 'puppet:///modules/html/index.html'
+    source => "puppet:///modules/html/index.html"
 }
    
   service {'httpd':
     ensure => running,
 }
 }
-
- 
 
 node 'slave2.puppet'{
   package {'httpd':
@@ -33,7 +31,7 @@ node 'slave2.puppet'{
 } 
   file {'/var/www/html/index.php':
     ensure => file,
-    source => 'puppet:///modules/php/files/index.php'
+    source => "puppet:///modules/php/files/index.php"
 }
   
   service {'httpd':
@@ -41,10 +39,9 @@ node 'slave2.puppet'{
 }  
 }
 
+node 'mineserver.puppet'{
 
-node 'mineserver.puppet' {
-
- service {'firewalld':
+  service {'firewalld':
     ensure => stopped,
 } 
 
@@ -56,22 +53,21 @@ node 'mineserver.puppet' {
   include minecraft 
 }
 
-node 'master.puppet' {
+node 'master.puppet'{
 
-   include nginx
+  include nginx
+  
+  nginx::resource::server {'static':
+    listen_port => 80,
+    proxy       => 'http://192.168.33.11:80',
+}
 
-nginx::resource::server { 'static':
-  listen_port => 80,
-  proxy => 'http://192.168.33.11:80',
-  }
+  nginx::resource::server {'dynamic':
+    listen_port => 8080,
+    proxy       => 'http://192.168.33.12:80',
+}
 
-nginx::resource::server { 'dynamic':
-  listen_port => 8080,
-  proxy => 'http://192.168.33.12:80',
-  }
-
-
-class { selinux:
+  class { selinux:
     mode => 'permissive',
     type => 'targeted',
 }

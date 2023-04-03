@@ -77,9 +77,8 @@ node 'master.puppet'{
     type => 'targeted',
 }
 
-  exec {'restart_nginx':
-    command     => 'systemctl restart nginx',
-    path        => ['/bin'],
-    user => 'root',
-} 
+ exec { 'config SELinux Booleans':
+    command => 'setsebool -P httpd_can_network_connect on',
+    path    => "/usr/sbin",
+  }
 }

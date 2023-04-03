@@ -1,5 +1,5 @@
 [Unit]
-Description=Minecraft Server Service
+Description=Minecraft Server
 
 [Service]
 WorkingDirectory=/opt/minecraft

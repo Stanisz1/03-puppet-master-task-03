@@ -9,7 +9,7 @@ nginx::resource::server { 'static':
   }
 
 nginx::resource::server { 'dynamic':
-  listen_port => 81,
+  listen_port => 8080,
   proxy => 'http://192.168.33.12:80',
   }
 

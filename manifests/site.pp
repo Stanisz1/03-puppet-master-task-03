@@ -58,7 +58,7 @@ node 'mineserver.puppet' {
 
 node 'master.puppet' {
 
-include nginx
+   include nginx
 
 nginx::resource::server { 'static':
   listen_port => 80,

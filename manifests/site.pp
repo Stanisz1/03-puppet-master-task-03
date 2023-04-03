@@ -1,31 +1,3 @@
-
-node 'master.puppet' {
-
-include nginx
-
-nginx::resource::server { 'static':
-  listen_port => 80,
-  proxy => 'http://192.168.33.11:80',
-  }
-
-nginx::resource::server { 'dynamic':
-  listen_port => 8080,
-  proxy => 'http://192.168.33.12:80',
-  }
-
-
-class { selinux:
-    mode => 'permissive',
-    type => 'targeted',
-}
-
-  exec {'restart_nginx':
-    command     => 'systemctl restart nginx',
-    path        => ['/bin'],
-    user => 'root',
-} 
-}
-
 node 'slave1.puppet'{
   package {'httpd':
     ensure => installed,
@@ -82,4 +54,31 @@ node 'mineserver.puppet' {
 }
   
   include minecraft 
+}
+
+node 'master.puppet' {
+
+include nginx
+
+nginx::resource::server { 'static':
+  listen_port => 80,
+  proxy => 'http://192.168.33.11:80',
+  }
+
+nginx::resource::server { 'dynamic':
+  listen_port => 8080,
+  proxy => 'http://192.168.33.12:80',
+  }
+
+
+class { selinux:
+    mode => 'permissive',
+    type => 'targeted',
+}
+
+  exec {'restart_nginx':
+    command     => 'systemctl restart nginx',
+    path        => ['/bin'],
+    user => 'root',
+} 
 }

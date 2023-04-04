@@ -1,5 +1,4 @@
 
-
 node slave1.puppet {
   package { 'httpd':
     ensure => installed,
@@ -48,7 +47,7 @@ node mineserver.puppet {
     ensure => stopped,
     enable => false,
   }
-include minecraft
+  include minecraft
 }
 
 
@@ -57,7 +56,7 @@ node master.puppet {
     ensure => stopped,
     enable => false,
   }
-include nginx
+  include nginx
   nginx::resource::server { 'static':
     listen_port => 80,
     proxy => 'http://192.168.33.11',

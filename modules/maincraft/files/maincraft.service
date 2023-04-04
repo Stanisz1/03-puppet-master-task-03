@@ -2,8 +2,8 @@
 Description=Minecraft Server
 
 [Service]
-WorkingDirectory=/opt/minecraft
-ExecStart=/etc/alternatives/jre_17/bin/java -Xmx1024M -Xms1024M -jar /opt/minecraft/server.jar nogui
+WorkingDirectory=/opt/minecraft/
+ExecStart=/usr/bin/java -Xmx1024M -Xms1024M -jar server.jar
 Restart=always
 
 [Install]

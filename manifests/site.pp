@@ -1,11 +1,10 @@
-
-node slave1.puppet {
+node 'slave1.puppet' {
   package { 'httpd':
     ensure => installed,
   }
   file { '/var/www/html/index.html':
     ensure => present,
-    source => "/vagrant/index.html",
+    source => '/vagrant/index.html',
   }
   service { 'httpd':
     ensure => running,
@@ -17,7 +16,7 @@ node slave1.puppet {
   }
 }
 
-node slave2.puppet {
+node 'slave2.puppet' {
   package { 'httpd':
     ensure => installed,
   }
@@ -26,7 +25,7 @@ node slave2.puppet {
   }
   file { '/var/www/html/index.php':
     ensure => present,
-    source => "/vagrant/index.php",
+    source => '/vagrant/index.php',
   }
   service { 'php-fpm':
     ensure => running,
@@ -42,31 +41,33 @@ node slave2.puppet {
   }
 }
 
-node mineserver.puppet {
+node 'mineserver.puppet' {
   service { 'firewalld':
     ensure => stopped,
     enable => false,
   }
+
   include minecraft
 }
 
-
-node master.puppet {
+node 'master.puppet' {
   service { 'firewalld':
     ensure => stopped,
     enable => false,
   }
+
   include nginx
-  nginx::resource::server { 'static':
+
+  nginx::resource::server { 'http://192.168.33.10:80':
     listen_port => 80,
-    proxy => 'http://192.168.33.11',
+    proxy       => 'http://192.168.33.11',
   }
-  nginx::resource::server { 'dynamic':
+  nginx::resource::server { 'http://192.168.33.10:81':
     listen_port => 81,
-    proxy => 'http://192.168.33.12',
+    proxy       => 'http://192.168.33.12',
   }
   exec { 'config SELinux Booleans':
     command => 'setsebool -P httpd_can_network_connect on',
-    path    => "/usr/sbin",
+    path    => '/usr/sbin',
   }
 }

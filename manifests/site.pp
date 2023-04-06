@@ -58,11 +58,11 @@ node 'master.puppet' {
 
   include nginx
 
-  nginx::resource::server { 'http://192.168.33.10:80':
+  nginx::resource::server { 'static':
     listen_port => 80,
     proxy       => 'http://192.168.33.11',
   }
-  nginx::resource::server { 'http://192.168.33.10:81':
+  nginx::resource::server { 'dynamic':
     listen_port => 81,
     proxy       => 'http://192.168.33.12',
   }
